@@ -1,7 +1,8 @@
+import { CharacterDetails } from './components/MainContent/CharacterDetails';
 import { CharacterItem } from './components/Sidebar/CharacterItem';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import './RickAndMortyApp.css';
-import { LoadingStatus } from './shared/components/LoadingSvg';
+import { LoadingStatus } from './shared/components/LoadingSVG';
 
 const fakeCharacters = [
   { id: 1, name: 'Luke Skywalker', species: 'Human from Tatooine' },
@@ -26,6 +27,24 @@ const fakeCharacters = [
   { id: 20, name: 'Jerry Smith', species: 'Human from Earth C-137' },
 ];
 
+const fakeCharacterData = {
+  characterId: 1,
+  details: {
+    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+    name: 'Rick Sanchez',
+    species: 'Human',
+    status: 'Alive',
+    gender: 'Male',
+    location: {
+      name: 'Citadel of Ricks',
+    },
+    origin: {
+      name: 'Earth (C-137)',
+    },
+    episode: ['S01E01', 'S01E02', 'S01E03', 'S01E04', 'S01E05'],
+  },
+};
+
 export const RickAndMortyApp = () => {
   return (
     <div className="rick-and-morty-app">
@@ -47,7 +66,12 @@ export const RickAndMortyApp = () => {
           </Sidebar>
         </aside>
 
-        <main className="main-container"></main>
+        <main className="main-container">
+          <CharacterDetails
+            characterId={fakeCharacterData.characterId}
+            details={fakeCharacterData.details}
+          />
+        </main>
       </div>
     </div>
   );
