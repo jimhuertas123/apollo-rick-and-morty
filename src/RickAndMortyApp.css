@@ -37,7 +37,7 @@ body {
 
 .app-content {
   display: grid;
-  grid-template-columns: 24.4% 1fr;
+  grid-template-columns: 25% 1fr;
 }
 
 .sidebar-container {
