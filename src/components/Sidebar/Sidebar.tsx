@@ -52,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   }, [data?.characters?.results, handleCharacterSelect]);
 
-  if (isLoading && !data?.characters?.results?.length) {
+  if (isLoading && !(data === null || data === undefined)) {
     return <LoadingStatus />;
   }
 
@@ -65,13 +65,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div ref={triggerRef} style={{ height: '10px' }} />
         </div>
       )}
-      {isMobile && (
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <button className="sidebar-trigger">
-              <HamburgerIcon />
-            </button>
-          </Dialog.Trigger>
+
+      <Dialog.Root>
+        <Dialog.Title></Dialog.Title>
+        <Dialog.Trigger asChild>
+          <button className="sidebar-trigger">
+            <HamburgerIcon />
+          </button>
+        </Dialog.Trigger>
+        {isMobile && (
           <Dialog.Portal>
             <Dialog.Overlay className="sidebar-overlay" />
             <Dialog.Content className="sidebar-content">
@@ -83,8 +85,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </button>
                 </Dialog.Close>
               </div>
-              <div className="sidebar-body">
-                <div ref={scrollRef} className="sidebar-desktop-content">
+              <div className="sidebar-body" ref={scrollRef}>
+                <div className="sidebar-desktop-content">
                   {characterItems}
                   {isFetchingMore && <LoadingStatus />}
                   <div ref={triggerRef} style={{ height: '10px' }} />
@@ -92,8 +94,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </Dialog.Content>
           </Dialog.Portal>
-        </Dialog.Root>
-      )}
+        )}
+      </Dialog.Root>
     </div>
   );
 };

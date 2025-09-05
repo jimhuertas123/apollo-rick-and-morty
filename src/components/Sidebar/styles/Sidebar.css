@@ -4,6 +4,15 @@
   overflow: scroll;
 }
 
+.sidebar-trigger {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+}
+
 /* mobile styling */
 .sidebar-overlay {
   background-color: rgba(0, 0, 0, 0.5);
