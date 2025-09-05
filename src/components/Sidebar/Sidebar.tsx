@@ -7,53 +7,53 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { CharacterItem } from './CharacterItem';
 import type { CharactersQuery } from '../../generated/graphql';
 import { LoadingStatus } from '../../shared/components/LoadingStatus';
+import { useScrollBottom } from '../../hooks/useScrollBottom';
 
 type SidebarProps = {
   data: CharactersQuery | undefined;
   setSelectedId: (id: number) => void;
   isLoading?: boolean;
+  loadNextPage: () => void;
+  isFetchingMore: boolean;
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({
   data,
   setSelectedId,
   isLoading,
+  isFetchingMore,
+  loadNextPage,
 }) => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const { scrollRef } = useScrollBottom(data, loadNextPage, isFetchingMore);
+
+  // useEffect(() => {
+  //   if (isNearBottom) {
+  //     loadNextPage();
+  //   }
+  // }, [isNearBottom, loadNextPage]);
 
   const handleCharacterSelect = (id: number) => {
     setSelectedId(id);
   };
-
-  // const handleLoadMore = () => {
-  //   if (onLoadMore) {
-  //     onLoadMore();
-  //   }
-  // };
-
-  // const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-  //   const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-  //   if (scrollTop + clientHeight >= scrollHeight) {
-  //     handleLoadMore();
-  //   }
-  // };
 
   if (isLoading) {
     return <LoadingStatus />;
   }
 
   return (
-    <div>
+    <div className="sidebar">
       {!isMobile && (
-        <div className="sidebar-desktop-content">
-          {data?.characters.results.map(character => (
+        <div ref={scrollRef} className="sidebar-desktop-content">
+          {data?.characters?.results?.map(character => (
             <CharacterItem
-              key={character.id}
-              name={character.name}
-              species={character.species}
-              onClick={() => handleCharacterSelect(Number(character.id))}
+              key={`character-${character?.id}`}
+              name={character?.name}
+              species={character?.species}
+              onClick={() => handleCharacterSelect(Number(character?.id))}
             />
           ))}
+          {isFetchingMore && <LoadingStatus />}
         </div>
       )}
       {isMobile && (
@@ -75,17 +75,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </Dialog.Close>
               </div>
               <div className="sidebar-body">
-                <div className="sidebar-desktop-content">
-                  {data?.characters.results.map(character => (
+                <div ref={scrollRef} className="sidebar-desktop-content">
+                  {data?.characters?.results?.map(character => (
                     <CharacterItem
-                      key={character.id}
-                      name={character.name}
-                      species={character.species}
+                      key={`character-${character?.id}`}
+                      name={character?.name}
+                      species={character?.species}
                       onClick={() =>
-                        handleCharacterSelect(Number(character.id))
+                        handleCharacterSelect(Number(character?.id))
                       }
                     />
                   ))}
+                  {isFetchingMore && <LoadingStatus />}
                 </div>
               </div>
             </Dialog.Content>

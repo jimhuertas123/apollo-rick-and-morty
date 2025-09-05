@@ -5,22 +5,31 @@ import './RickAndMortyApp.css';
 import { useCharactersQuery, type Character } from './generated/graphql';
 import { ErrorStatus } from './shared/components/ErrorStatus';
 import { ErrorBoundary } from 'react-error-boundary';
+import { NetworkStatus } from '@apollo/client';
 
 export const RickAndMortyApp = () => {
-  const { data, fetchMore, loading } = useCharactersQuery({
-    variables: { page: 1 },
-  });
-
   const [selectedId, setSelectedId] = useState<number | null | undefined>(null);
 
-  // const loadNextPage = () => {
-  //   if (data?.characters?.info?.next) {
-  //     fetchMore({
-  //       variables: { page: data.characters.info.next },
-  //     });
-  //   }
-  // };
+  const { data, fetchMore, loading, networkStatus } = useCharactersQuery({
+    variables: { page: 1 },
+    notifyOnNetworkStatusChange: true,
+  });
 
+  const isFetchingMore = networkStatus === NetworkStatus.fetchMore;
+
+  const loadNextPage = () => {
+    // console.log('🔄 Loading next page...', {
+    //   hasNext: !!data?.characters?.info?.next,
+    //   nextPage: data?.characters?.info?.next,
+    //   isFetching: isFetchingMore,
+    // });
+
+    if (data?.characters?.info?.next && !isFetchingMore) {
+      fetchMore({
+        variables: { page: data.characters.info.next },
+      });
+    }
+  };
   return (
     <div className="rick-and-morty-app">
       {/* header */}
@@ -36,6 +45,8 @@ export const RickAndMortyApp = () => {
               isLoading={loading}
               setSelectedId={setSelectedId}
               data={data}
+              loadNextPage={loadNextPage}
+              isFetchingMore={isFetchingMore}
             />
           </ErrorBoundary>
         </aside>
