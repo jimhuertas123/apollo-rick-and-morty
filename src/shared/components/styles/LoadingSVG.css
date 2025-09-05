@@ -1,0 +1,8 @@
+.loading-container {
+  display: flex;
+}
+
+.loading-size {
+  width: 20px;
+  height: 20px;
+}
