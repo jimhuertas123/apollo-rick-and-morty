@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import './Sidebar.css';
+import './styles/Sidebar.css';
 
 import { HamburgerIcon } from '../Icons/HamburgerIcon';
 import { XIcon } from '../Icons/XIcon';
@@ -13,7 +13,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
   return (
     <div>
-      {!isMobile && <div>gsaaa</div>}
+      {!isMobile && <div className="sidebar-desktop-content">{children}</div>}
       {isMobile && (
         <Dialog.Root>
           <Dialog.Trigger asChild>

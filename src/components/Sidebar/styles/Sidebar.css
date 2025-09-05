@@ -1,3 +1,10 @@
+.sidebar-desktop-content {
+  height: calc(100dvh - 52px);
+  flex: 1;
+  overflow: scroll;
+}
+
+/* mobile styling */
 .sidebar-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
