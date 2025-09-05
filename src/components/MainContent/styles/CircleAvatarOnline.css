@@ -1,0 +1,65 @@
+.shared-profiles {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.shared-profiles > * {
+  display: flex;
+  width: 40%;
+  aspect-ratio: 1/1;
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 50%;
+  border: 1px solid#BEC0C8;
+  background-color: #ffffff;
+  margin-left: -8px;
+}
+
+.shared-profiles > *:first-child {
+  margin-left: 0;
+}
+
+.profile-count {
+  color: #6b7280;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.profile-count span {
+  line-height: 1;
+}
+
+.profile-count-text {
+  color: #343951 !important;
+}
+
+@media (max-width: 1227px) {
+  .shared-profiles > * {
+    width: 20%;
+    aspect-ratio: 1/1;
+  }
+}
+
+@media (max-width: 628px) {
+  .shared-profiles {
+    justify-content: center;
+  }
+
+  .shared-profiles > * {
+    width: 40%;
+    aspect-ratio: 1/1;
+  }
+
+  .cards-shared-files-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .cards-shared-files-content span {
+    font-size: 1rem;
+  }
+}

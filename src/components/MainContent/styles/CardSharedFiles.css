@@ -1,0 +1,78 @@
+.cards-shared-files-content {
+  display: grid;
+  grid-template-rows: 56% 22% 22%;
+  margin-right: 5%;
+  background-color: var(--suscription-bg-color);
+  /* justify-content: center; */
+  border-radius: 12px;
+  padding: 0 5%;
+}
+
+.shared-info {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 100%;
+  width: 100%;
+}
+
+.icon-share-container {
+  aspect-ratio: 1/0.9;
+  background-color: #ff9f00;
+  height: 35px;
+}
+
+.shared-profiles-files {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-left: 10%;
+  justify-content: center;
+}
+
+.shared-profiles-files > * {
+  height: 30%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border: 1.2px solid#BEC0C8;
+  background-color: #ffffff;
+  margin-left: -8px;
+}
+
+.shared-profiles-files > *:first-child {
+  margin-left: 0;
+}
+
+.cards-shared-files-content h3 {
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
+.cards-shared-files-content span {
+  font-size: 1rem;
+}
+
+@media (max-width: 1227px) {
+  .cards-shared-files-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .cards-shared-files-content span {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 628px) {
+  .shared-profiles-files > * {
+    height: 25%;
+  }
+
+  .cards-shared-files-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .icon-share-container {
+    height: 30px;
+  }
+}
