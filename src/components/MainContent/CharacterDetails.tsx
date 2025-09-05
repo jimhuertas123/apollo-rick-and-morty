@@ -18,6 +18,9 @@ export const CharacterDetails = ({
 
   return (
     <>
+      {details === undefined && (
+        <h1 className="character-details-placeholder">Select a Character</h1>
+      )}
       {details !== undefined && (
         <div className="character-details-container">
           <h2>General Information</h2>

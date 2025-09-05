@@ -52,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   }, [data?.characters?.results, handleCharacterSelect]);
 
-  if (isLoading && !(data === null || data === undefined)) {
+  if (isLoading && !data?.characters?.results?.length) {
     return <LoadingStatus />;
   }
 
@@ -66,14 +66,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       )}
 
-      <Dialog.Root>
-        <Dialog.Title></Dialog.Title>
-        <Dialog.Trigger asChild>
-          <button className="sidebar-trigger">
-            <HamburgerIcon />
-          </button>
-        </Dialog.Trigger>
-        {isMobile && (
+      {isMobile && (
+        <Dialog.Root>
+          <Dialog.Title></Dialog.Title>
+          <Dialog.Trigger asChild>
+            <button className="sidebar-trigger">
+              <HamburgerIcon />
+            </button>
+          </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay className="sidebar-overlay" />
             <Dialog.Content className="sidebar-content">
@@ -94,8 +94,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </Dialog.Content>
           </Dialog.Portal>
-        )}
-      </Dialog.Root>
+        </Dialog.Root>
+      )}
     </div>
   );
 };
