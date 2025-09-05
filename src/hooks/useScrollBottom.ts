@@ -7,6 +7,7 @@ export const useScrollBottom = (
   isFetchingMore?: boolean
 ) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
   const hasTriggeredRef = useRef(false);
 
   useEffect(() => {
@@ -15,44 +16,43 @@ export const useScrollBottom = (
     }
   }, [isFetchingMore]);
 
-  const handleScroll = useCallback(() => {
-    if (
-      scrollRef.current &&
-      !isFetchingMore &&
-      !hasTriggeredRef.current &&
-      onBottomReached
-    ) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 10;
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
 
-      if (isNearBottom) {
-        console.log('🚀 Triggering load more!');
+      if (
+        entry.isIntersecting &&
+        !isFetchingMore &&
+        !hasTriggeredRef.current &&
+        onBottomReached
+      ) {
         hasTriggeredRef.current = true;
         onBottomReached();
       }
-    }
-  }, [isFetchingMore, onBottomReached]);
+    },
+    [isFetchingMore, onBottomReached]
+  );
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    const currentTriggerRef = triggerRef.current;
 
-    const debouncedHandleScroll = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleScroll, 100);
-    };
+    if (!currentTriggerRef) return;
 
-    const currentScrollRef = scrollRef.current;
-    if (currentScrollRef) {
-      currentScrollRef.addEventListener('scroll', debouncedHandleScroll);
-    }
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: scrollRef.current,
+      rootMargin: '100px',
+      threshold: 0,
+    });
+
+    observer.observe(currentTriggerRef);
 
     return () => {
-      clearTimeout(timeoutId);
-      if (currentScrollRef) {
-        currentScrollRef.removeEventListener('scroll', debouncedHandleScroll);
+      if (currentTriggerRef) {
+        observer.unobserve(currentTriggerRef);
       }
+      observer.disconnect();
     };
-  }, [handleScroll]);
+  }, [handleIntersection]);
 
-  return { scrollRef };
+  return { scrollRef, triggerRef };
 };

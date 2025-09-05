@@ -4,26 +4,21 @@ import { Sidebar } from './components/Sidebar/Sidebar';
 import './RickAndMortyApp.css';
 import { useCharactersQuery, type Character } from './generated/graphql';
 import { ErrorStatus } from './shared/components/ErrorStatus';
-import { ErrorBoundary } from 'react-error-boundary';
 import { NetworkStatus } from '@apollo/client';
 
 export const RickAndMortyApp = () => {
   const [selectedId, setSelectedId] = useState<number | null | undefined>(null);
 
-  const { data, fetchMore, loading, networkStatus } = useCharactersQuery({
-    variables: { page: 1 },
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, fetchMore, loading, networkStatus, error } = useCharactersQuery(
+    {
+      variables: { page: 1 },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   const isFetchingMore = networkStatus === NetworkStatus.fetchMore;
 
   const loadNextPage = () => {
-    // console.log('🔄 Loading next page...', {
-    //   hasNext: !!data?.characters?.info?.next,
-    //   nextPage: data?.characters?.info?.next,
-    //   isFetching: isFetchingMore,
-    // });
-
     if (data?.characters?.info?.next && !isFetchingMore) {
       fetchMore({
         variables: { page: data.characters.info.next },
@@ -40,7 +35,8 @@ export const RickAndMortyApp = () => {
       {/* sidebat */}
       <div className="app-content">
         <aside className="sidebar-container">
-          <ErrorBoundary fallback={<ErrorStatus />}>
+          {error && <ErrorStatus />}
+          {data && (
             <Sidebar
               isLoading={loading}
               setSelectedId={setSelectedId}
@@ -48,7 +44,7 @@ export const RickAndMortyApp = () => {
               loadNextPage={loadNextPage}
               isFetchingMore={isFetchingMore}
             />
-          </ErrorBoundary>
+          )}
         </aside>
 
         {/* main content */}
