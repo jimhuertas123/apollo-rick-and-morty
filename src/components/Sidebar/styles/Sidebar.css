@@ -9,7 +9,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 1;
 }
 
 .sidebar-content {

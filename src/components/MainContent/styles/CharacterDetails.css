@@ -49,6 +49,18 @@ tr :not(:first-child) {
   color: #333333;
 }
 
+.character-image {
+  transition: opacity 0.2s ease;
+}
+
+.character-image.loading {
+  opacity: 0.5;
+}
+
+.character-image.loaded {
+  opacity: 1;
+}
+
 @media (max-width: 1026px) {
   .character-details-container {
     padding: 0 20%;
