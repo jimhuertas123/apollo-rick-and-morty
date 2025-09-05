@@ -1,4 +1,4 @@
-import './styles/LoadingSVG.css';
+import './styles/LoadingStatus.css';
 
 export const LoadingStatus = () => (
   <div className="loading-container">

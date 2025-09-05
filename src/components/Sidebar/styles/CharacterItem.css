@@ -1,3 +1,13 @@
+.character-item-container {
+  border-radius: 10px;
+  transition: background-color 100ms ease-in-out;
+}
+.character-item-container:focus,
+.character-item-container:hover {
+  outline: none;
+  background-color: rgba(212, 211, 211, 0.5);
+  cursor: pointer;
+}
 .character-item {
   background-color: transparent;
   border: 0;

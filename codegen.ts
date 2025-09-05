@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-export const config: CodegenConfig = {
+const config: CodegenConfig = {
   overwrite: true,
   schema: 'https://rickandmortyapi.com/graphql',
   documents: 'src/**/*.{ts,tsx}',
@@ -15,7 +15,12 @@ export const config: CodegenConfig = {
         withHooks: true,
         withHOC: false,
         withComponent: false,
+        avoidOptionals: true,
+        maybeValue: 'T',
+        inputMaybeValue: 'T | undefined',
       },
     },
   },
 };
+
+export default config;

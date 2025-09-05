@@ -4,16 +4,58 @@ import './styles/Sidebar.css';
 import { HamburgerIcon } from '../Icons/HamburgerIcon';
 import { XIcon } from '../Icons/XIcon';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { CharacterItem } from './CharacterItem';
+import type { CharactersQuery } from '../../generated/graphql';
+import { LoadingStatus } from '../../shared/components/LoadingStatus';
+
 type SidebarProps = {
-  children: React.ReactNode;
+  data: CharactersQuery | undefined;
+  setSelectedId: (id: number) => void;
+  isLoading?: boolean;
 };
 
-export const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+export const Sidebar: React.FC<SidebarProps> = ({
+  data,
+  setSelectedId,
+  isLoading,
+}) => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
+
+  const handleCharacterSelect = (id: number) => {
+    setSelectedId(id);
+  };
+
+  // const handleLoadMore = () => {
+  //   if (onLoadMore) {
+  //     onLoadMore();
+  //   }
+  // };
+
+  // const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+  //   const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
+  //   if (scrollTop + clientHeight >= scrollHeight) {
+  //     handleLoadMore();
+  //   }
+  // };
+
+  if (isLoading) {
+    return <LoadingStatus />;
+  }
 
   return (
     <div>
-      {!isMobile && <div className="sidebar-desktop-content">{children}</div>}
+      {!isMobile && (
+        <div className="sidebar-desktop-content">
+          {data?.characters.results.map(character => (
+            <CharacterItem
+              key={character.id}
+              name={character.name}
+              species={character.species}
+              onClick={() => handleCharacterSelect(Number(character.id))}
+            />
+          ))}
+        </div>
+      )}
       {isMobile && (
         <Dialog.Root>
           <Dialog.Trigger asChild>
@@ -32,7 +74,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   </button>
                 </Dialog.Close>
               </div>
-              <div className="sidebar-body">{children}</div>
+              <div className="sidebar-body">
+                <div className="sidebar-desktop-content">
+                  {data?.characters.results.map(character => (
+                    <CharacterItem
+                      key={character.id}
+                      name={character.name}
+                      species={character.species}
+                      onClick={() =>
+                        handleCharacterSelect(Number(character.id))
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>

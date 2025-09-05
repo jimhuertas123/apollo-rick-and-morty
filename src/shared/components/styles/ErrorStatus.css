@@ -1,0 +1,13 @@
+.error-container {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  margin: 15px 0;
+}
+
+.error-container span {
+  margin-left: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ec5757;
+}

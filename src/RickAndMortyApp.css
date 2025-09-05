@@ -42,6 +42,7 @@ body {
 
 .sidebar-container {
   max-width: 350px;
+  min-height: calc(100dvh - 52px);
   overflow: hidden;
   padding: 0 0 0 4%;
   border-right: 1px solid #d4d3d3;
